@@ -34,5 +34,11 @@ resource "aws_nat_gateway" "ngw" {
   subnet_id     = module.subnets["public"].subnet_ids[count.index]
 
   tags = merge(var.tags, { Name = "${var.env}-ngw" })
+}
 
+resource "aws_route" "igw" {
+  count = length(module.subnets["public"].route_table_ids)
+  route_table_id = module.subnets["public"].route_table_ids[count.index]
+  gateway_id = aws_internet_gateway.igw.id
+  destination_cidr_block = "0.0.0.0/0"
 }
