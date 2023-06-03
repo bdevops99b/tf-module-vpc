@@ -51,6 +51,4 @@ resource "aws_route" "ngw" {
 }
 
 
-output "subnets" {
-  value = module.subnets
-}
+
