@@ -58,8 +58,8 @@ resource "aws_vpc_peering_connection" "peer" {
 }
 
 resource "aws_route" "peering-connection-route" {
-  count = length(module.subnets["public"].route_table_ids)
-  route_table_id = module.subnets["public"].route_table_ids[count.index]
+  count = length(local.all_private_subnet_ids)
+  route_table_id = element(local.all_private_subnet_ids, count.index)
   vpc_peering_connection_id = aws_vpc_peering_connection.peer.id
   destination_cidr_block = var.default_vpc_cidr
 }
